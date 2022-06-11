@@ -1,0 +1,46 @@
+CREATE TABLE IF NOT EXISTS genre_of_music (
+	ID_genre SERIAL PRIMARY KEY,
+	name VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS songer (
+	ID_songer SERIAL PRIMARY KEY,
+	name VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS GenresSongers (
+	ID_genre INTEGER REFERENCES genre_of_music(ID_genre),
+	ID_songer INTEGER REFERENCES songer(ID_songer),
+	CONSTRAINT pk PRIMARY KEY (ID_genre, ID_songer)
+);
+
+CREATE TABLE IF NOT EXISTS albom (
+	ID_albom SERIAL PRIMARY KEY,
+	name VARCHAR(40) NOT NULL,
+	created_at DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS SongersAlboms (
+	Id SERIAL PRIMARY KEY,
+	ID_albom INTEGER NOT NULL REFERENCES albom(ID_albom),
+	ID_songer INTEGER NOT NULL REFERENCES songer(ID_songer)
+);
+
+CREATE TABLE IF NOT EXISTS trak (
+	ID_trak SERIAL PRIMARY KEY,
+	albom_id INTEGER NOT NULL REFERENCES albom(ID_albom),
+	name VARCHAR(40) NOT NULL,
+	duration VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS collection (
+	ID_collection SERIAL PRIMARY KEY,
+	name VARCHAR(40) NOT NULL,
+	created_at DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS TrakCollection (
+	ID_trak INTEGER REFERENCES trak(ID_trak),
+	ID_collection INTEGER REFERENCES collection(ID_collection),
+	CONSTRAINT pk1 PRIMARY KEY (ID_trak, ID_collection)
+);
